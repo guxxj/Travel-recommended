@@ -1,1 +1,110 @@
 # Travel-recommended
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>계절 기반 여행지 추천</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 10px; }
+    label, select, button { display: block; margin: 12px 0; }
+    .card { margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>여행지 추천기</h1>
+
+  <label>여행 계절:</label>
+  <select id="season">
+    <option>봄</option>
+    <option>여름</option>
+    <option>가을</option>
+    <option>겨울</option>
+  </select>
+
+  <label>선호 스타일:</label>
+  <select id="style">
+    <option>자연</option>
+    <option>도시</option>
+    <option>해변</option>
+    <option>단풍</option>
+    <option>눈</option>
+    <option>온천</option>
+    <option>축제</option>
+  </select>
+
+  <label>선호 지역:</label>
+  <select id="region">
+    <option>전국</option>
+    <option>수도권</option>
+    <option>남부</option>
+    <option>강원</option>
+    <option>제주</option>
+  </select>
+
+  <button onclick="recommend()">추천받기</button>
+
+  <div id="result"></div>
+
+  <script>
+    const destinations = [
+      { name: "서울", region: "수도권", tags: ["도시", "축제"], scores: { 봄: 6, 여름: 7, 가을: 8, 겨울: 7 } },
+      { name: "부산", region: "남부", tags: ["해변", "도시", "축제"], scores: { 봄: 7, 여름: 9, 가을: 8, 겨울: 5 } },
+      { name: "강릉", region: "강원", tags: ["해변", "자연"], scores: { 봄: 7, 여름: 8, 가을: 7, 겨울: 6 } },
+      { name: "제주", region: "제주", tags: ["자연", "해변", "축제"], scores: { 봄: 9, 여름: 10, 가을: 8, 겨울: 6 } },
+      { name: "전주", region: "남부", tags: ["도시", "축제"], scores: { 봄: 8, 여름: 7, 가을: 9, 겨울: 5 } },
+      { name: "속초", region: "강원", tags: ["해변", "자연"], scores: { 봄: 7, 여름: 9, 가을: 8, 겨울: 6 } },
+      { name: "여수", region: "남부", tags: ["해변", "자연", "축제"], scores: { 봄: 8, 여름: 9, 가을: 7, 겨울: 4 } },
+      { name: "경주", region: "남부", tags: ["도시", "축제"], scores: { 봄: 9, 여름: 8, 가을: 9, 겨울: 6 } },
+      { name: "대구", region: "남부", tags: ["도시"], scores: { 봄: 7, 여름: 6, 가을: 8, 겨울: 6 } },
+      { name: "평창", region: "강원", tags: ["눈", "자연", "온천"], scores: { 봄: 5, 여름: 6, 가을: 7, 겨울: 10 } },
+      { name: "울진", region: "강원", tags: ["온천", "자연"], scores: { 봄: 6, 여름: 6, 가을: 6, 겨울: 8 } },
+      { name: "진해", region: "남부", tags: ["축제", "자연"], scores: { 봄: 10, 여름: 5, 가을: 6, 겨울: 3 } },
+      { name: "구례", region: "남부", tags: ["자연", "단풍"], scores: { 봄: 7, 여름: 5, 가을: 9, 겨울: 4 } },
+      { name: "내장산", region: "남부", tags: ["자연", "단풍"], scores: { 봄: 6, 여름: 4, 가을: 10, 겨울: 3 } },
+      { name: "설악산", region: "강원", tags: ["자연", "단풍", "눈"], scores: { 봄: 6, 여름: 5, 가을: 10, 겨울: 9 } },
+    ];
+
+    const festivals = [
+      { place: "진해", season: "봄", name: "군항제" },
+      { place: "전주", season: "봄", name: "한지문화축제" },
+      { place: "강릉", season: "여름", name: "단오제" },
+      { place: "보령", season: "여름", name: "머드축제" },
+      { place: "안동", season: "가을", name: "국제탈춤페스티벌" },
+      { place: "정선", season: "가을", name: "아리랑제" },
+      { place: "평창", season: "겨울", name: "대관령 눈꽃축제" },
+      { place: "제주", season: "봄", name: "들불축제" },
+    ];
+
+    function recommend() {
+      const season = document.getElementById("season").value;
+      const style = document.getElementById("style").value;
+      const region = document.getElementById("region").value;
+
+      const scored = destinations.map(d => {
+        let score = d.scores[season];
+        if (d.tags.includes(style)) score += 3;
+        if (region !== "전국" && d.region === region) score += 2;
+        const fest = festivals.find(f => f.place === d.name && f.season === season);
+        if (fest) score += 3; // 축제 가중치
+        return { ...d, total: score };
+      });
+
+      scored.sort((a, b) => b.total - a.total);
+      const best = scored[0];
+      const matchingFestival = festivals.find(f => f.place === best.name && f.season === season);
+      const festivalInfo = matchingFestival ? `<p>🎉 현재 <strong>${matchingFestival.name}</strong>가 열리는 시기예요!</p>` : "";
+
+      document.getElementById("result").innerHTML = `
+        <div class="card">
+          <h2>추천 여행지: ${best.name}</h2>
+          <p>계절 점수: ${best.scores[season]}</p>
+          <p>선호 스타일: ${style} → ${best.tags.includes(style) ? "적합" : "보통"}</p>
+          <p>지역 선호: ${region} → ${region === "전국" || best.region === region ? "적합" : "다름"}</p>
+          ${festivalInfo}
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
