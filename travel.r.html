@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="ko"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;계절 기반 여행지 추천&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>label, select, button { display: block; margin: 12px 0; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card { margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;h1&gt;여행지 추천기&lt;/h1&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;label&gt;여행 계절:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;select id="season"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;봄&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;여름&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;가을&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;겨울&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/select&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;label&gt;선호 스타일:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;select id="style"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;자연&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;도시&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;해변&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;단풍&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;눈&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;온천&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;축제&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/select&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;label&gt;선호 지역:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;select id="region"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;전국&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;수도권&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;남부&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;강원&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;option&gt;제주&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/select&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;button onclick="recommend()"&gt;추천받기&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="result"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const destinations = [</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ name: "서울", region: "수도권", tags: ["도시", "축제"], scores: { 봄: 6, 여름: 7, 가을: 8, 겨울: 7 } },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ name: "부산", region: "남부", tags: ["해변", "도시", "축제"], scores: { 봄: 7, 여름: 9, 가을: 8, 겨울: 5 } },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ name: "강릉", region: "강원", tags: ["해변", "자연"], scores: { 봄: 7, 여름: 8, 가을: 7, 겨울: 6 } },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ name: "제주", region: "제주", tags: ["자연", "해변", "축제"], scores: { 봄: 9, 여름: 10, 가을: 8, 겨울: 6 } },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ name: "전주", region: "남부", tags: ["도시", "축제"], scores: { 봄: 8, 여름: 7, 가을: 9, 겨울: 5 } },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ name: "속초", region: "강원", tags: ["해변", "자연"], scores: { 봄: 7, 여름: 9, 가을: 8, 겨울: 6 } },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ name: "여수", region: "남부", tags: ["해변", "자연", "축제"], scores: { 봄: 8, 여름: 9, 가을: 7, 겨울: 4 } },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ name: "경주", region: "남부", tags: ["도시", "축제"], scores: { 봄: 9, 여름: 8, 가을: 9, 겨울: 6 } },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ name: "대구", region: "남부", tags: ["도시"], scores: { 봄: 7, 여름: 6, 가을: 8, 겨울: 6 } },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ name: "평창", region: "강원", tags: ["눈", "자연", "온천"], scores: { 봄: 5, 여름: 6, 가을: 7, 겨울: 10 } },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ name: "울진", region: "강원", tags: ["온천", "자연"], scores: { 봄: 6, 여름: 6, 가을: 6, 겨울: 8 } },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ name: "진해", region: "남부", tags: ["축제", "자연"], scores: { 봄: 10, 여름: 5, 가을: 6, 겨울: 3 } },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ name: "구례", region: "남부", tags: ["자연", "단풍"], scores: { 봄: 7, 여름: 5, 가을: 9, 겨울: 4 } },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ name: "내장산", region: "남부", tags: ["자연", "단풍"], scores: { 봄: 6, 여름: 4, 가을: 10, 겨울: 3 } },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ name: "설악산", region: "강원", tags: ["자연", "단풍", "눈"], scores: { 봄: 6, 여름: 5, 가을: 10, 겨울: 9 } },</p>
+<p class="p1"><span class="Apple-converted-space">    </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const festivals = [</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ place: "진해", season: "봄", name: "군항제" },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ place: "전주", season: "봄", name: "한지문화축제" },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ place: "강릉", season: "여름", name: "단오제" },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ place: "보령", season: "여름", name: "머드축제" },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ place: "안동", season: "가을", name: "국제탈춤페스티벌" },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ place: "정선", season: "가을", name: "아리랑제" },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ place: "평창", season: "겨울", name: "대관령 눈꽃축제" },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{ place: "제주", season: "봄", name: "들불축제" },</p>
+<p class="p1"><span class="Apple-converted-space">    </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function recommend() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const season = document.getElementById("season").value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const style = document.getElementById("style").value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const region = document.getElementById("region").value;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const scored = destinations.map(d =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let score = d.scores[season];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (d.tags.includes(style)) score += 3;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (region !== "전국" &amp;&amp; d.region === region) score += 2;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const fest = festivals.find(f =&gt; f.place === d.name &amp;&amp; f.season === season);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (fest) score += 3; // 축제 가중치</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return { ...d, total: score };</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>scored.sort((a, b) =&gt; b.total - a.total);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const best = scored[0];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const matchingFestival = festivals.find(f =&gt; f.place === best.name &amp;&amp; f.season === season);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const festivalInfo = matchingFestival ? `&lt;p&gt;🎉 현재 &lt;strong&gt;${matchingFestival.name}&lt;/strong&gt;가 열리는 시기예요!&lt;/p&gt;` : "";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("result").innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h2&gt;추천 여행지: ${best.name}&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;계절 점수: ${best.scores[season]}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;선호 스타일: ${style} → ${best.tags.includes(style) ? "적합" : "보통"}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;지역 선호: ${region} → ${region === "전국" || best.region === region ? "적합" : "다름"}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>${festivalInfo}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
